@@ -1,0 +1,29 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Developer {
+  id      Int      @id @default(autoincrement())
+  name    String
+  genre   String
+  birth   DateTime
+  age     Int
+  hobby   String
+  levelId Int?
+  Level   Level?   @relation(fields: [levelId], references: [id])
+
+  @@map("developers")
+}
+
+model Level {
+  id         Int         @id @default(autoincrement())
+  level      Int         @unique
+  developers Developer[]
+
+  @@map("levels")
+}
